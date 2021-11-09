@@ -1,0 +1,9 @@
+---
+- name: Install rustup
+  shell: |
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+- name: Add path
+  lineinfile:
+    dest: ~/.zshrc
+    line: "PATH=${PATH}:~/.cargo/bin"

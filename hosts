@@ -1,0 +1,15 @@
+[local]
+localhost
+
+[raspberrypi]
+raspberrypi.local
+
+[raspberrypi:vars]
+ansible_ssh_user=pi
+ansible_ssh_pass=raspberry
+
+[targets]
+
+
+[targets:vars]
+ansible_ssh_private_key_file=

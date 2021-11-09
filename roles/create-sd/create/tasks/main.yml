@@ -1,0 +1,45 @@
+---
+- name: Diskutil list
+  command:
+    cmd: diskutil list
+  register: diskutil_list
+
+- name: Show diskutil list
+  debug:
+    var: diskutil_list.stdout_lines
+
+- name: disk_number
+  pause:
+    prompt: Enter the disk number
+  register: disk_number
+
+- name: Format
+  command:
+    cmd: diskutil eraseDisk MS-DOS PRI disk{{ disk_number.user_input }}
+
+- name: Unmount
+  command:
+    cmd: diskutil unmountDisk /dev/disk{{ disk_number.user_input }}
+
+- name: Flash
+  become: true
+  shell: |
+    dd bs=1m if=./{{ os_image.files[0] }} of=/dev/rdisk{{ disk_number.user_input }}; sync
+
+- name: Eject
+  command:
+    cmd: diskutil eject /dev/rdisk{{ disk_number.user_input }}
+
+- name: Mount
+  pause:
+    prompt: Re-insert the SD card and press Enter
+
+- name: Enable SSH
+  file:
+    path: /Volumes/boot/ssh
+    state: touch
+    mode: u=rw,g=r,o=r
+
+- name: Eject
+  command:
+    cmd: diskutil eject /dev/rdisk{{ disk_number.user_input }}

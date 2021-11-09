@@ -1,0 +1,26 @@
+---
+- name: Add authorized_key
+  authorized_key:
+    user: pi
+    key: "{{ lookup('file', '{{ ssh_public_key_path }}') }}"
+
+- name: Edit /etc/ssh/sshd_config
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  with_items:
+    # rootでのログインを禁止
+    - regexp: '^#PermitRootLogin.*$'
+      line: 'PermitRootLogin no'
+    # 公開鍵認証を有効化
+    - regexp: '^#PubkeyAuthentication.*$'
+      line: 'PubkeyAuthentication yes'
+    # パスワード認証を無効化
+    - regexp: '^#PasswordAuthentication.*$'
+      line: 'PasswordAuthentication no'
+
+- name: Service restart
+  service:
+    name: sshd
+    state: restarted

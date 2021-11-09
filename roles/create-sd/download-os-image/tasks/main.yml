@@ -1,0 +1,13 @@
+---
+- name: Download image
+  get_url:
+    url: "{{ url }}"
+    dest: "{{ zip_file }}"
+    checksum: "{{ checksum }}"
+
+- name: Unzip
+  unarchive:
+    src: "{{ zip_file }}"
+    dest: .
+    list_files: yes
+  register: os_image

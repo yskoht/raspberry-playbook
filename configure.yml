@@ -1,0 +1,36 @@
+- hosts: raspberrypi
+  gather_facts: no
+  become: true
+
+  vars_prompt:
+    - name: ssid
+      prompt: "SSID"
+      private: no
+
+    - name: wpa_psk
+      prompt: "Wifi passphrase"
+      private: yes
+
+    - name: hostname
+      prompt: "Hostname"
+      private: no
+
+    - name: password
+      prompt: "Password"
+      private: yes
+
+    - name: ssh_public_key_path
+      prompt: "SSH public key path"
+      private: no
+
+  roles:
+    - configure/rfkill
+    - configure/wpa
+    - configure/timesyncd
+    - configure/apt
+    - configure/python
+    - configure/raspi-config
+    - configure/password
+    - configure/ifconfig
+    - configure/sshd
+    - configure/reboot-exit

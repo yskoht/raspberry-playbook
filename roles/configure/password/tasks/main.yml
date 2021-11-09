@@ -1,0 +1,4 @@
+---
+- name: chpasswd
+  shell: |
+    echo "pi:{{ password }}" | chpasswd

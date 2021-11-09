@@ -1,0 +1,9 @@
+---
+- name: Enable spi
+  become: true
+  command:
+    cmd: raspi-config nonint do_spi 0
+
+- name: Reboot
+  become: true
+  reboot:

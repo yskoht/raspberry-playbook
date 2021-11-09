@@ -1,0 +1,17 @@
+- hosts: targets
+  gather_facts: no
+
+  vars_prompt:
+    - name: samba_shared_path
+      prompt: "Samba shared path"
+      private: no
+
+    - name: epaper_module
+      prompt: "E-paper module"
+      private: no
+
+  roles:
+    - configure/enable-spi
+    - configure/samba-host
+    - utility/epaper
+

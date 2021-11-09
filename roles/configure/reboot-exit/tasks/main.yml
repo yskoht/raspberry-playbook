@@ -1,0 +1,4 @@
+---
+- name: Reboot
+  command:
+    cmd: reboot

@@ -1,0 +1,9 @@
+---
+- name: Enable camera
+  become: true
+  command:
+    cmd: raspi-config nonint do_camera 0
+
+- name: Reboot
+  become: true
+  reboot:

@@ -1,0 +1,15 @@
+---
+- name: Clone dotfiles
+  git:
+    repo: 'https://github.com/yskoht/dotfiles.git'
+    dest: ~/.dotfiles
+
+- name: Change shell
+  become: true
+  user:
+    name: pi
+    shell: /usr/bin/zsh
+
+- name: Write config file
+  shell: |
+    (cd ~/.dotfiles && ./dotfiles.mk git-conf zsh-raspi-conf zsh-git-prompt vim-install-plug vim-conf tmux-conf tmux-plugin-manager)

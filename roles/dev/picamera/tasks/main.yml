@@ -1,0 +1,6 @@
+---
+- name: Install picamera
+  become: true
+  apt:
+    name:
+      - python3-picamera

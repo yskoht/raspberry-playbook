@@ -1,0 +1,16 @@
+---
+- name: Install venv
+  become: true
+  apt:
+    name:
+      - python3-venv
+
+- name: Install poetry
+  shell: |
+    curl -sSL {{ poetry_install_script_url }} | python -
+
+- name: Add path
+  lineinfile:
+    dest: ~/.zshrc
+    line: "PATH=${PATH}:~/.local/bin"
+

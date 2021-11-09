@@ -1,0 +1,3 @@
+---
+ntp: ntp.jst.mfeed.ad.jp ntp.nict.jp
+fallback: time.google.com

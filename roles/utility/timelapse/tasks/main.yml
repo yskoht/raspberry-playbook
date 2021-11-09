@@ -1,0 +1,69 @@
+---
+- name: Copy timelapse.service
+  become: true
+  copy:
+    src: ./files/timelapse.service
+    dest: /etc/systemd/system/timelapse.service
+
+- name: Creates mount directory
+  become: true
+  file:
+    path: /etc/sysconfig
+    state: directory
+    recurse: yes
+
+- name: touch /etc/sysconfig/pi
+  become: true
+  file:
+    path: /etc/sysconfig/pi
+    state: touch
+    mode: u=rw,g=r,o=r
+
+- name: Set env
+  become: true
+  lineinfile:
+    dest: /etc/sysconfig/pi
+    line: "RASPBERRY_TIMELAPSE_WORK_DIR=/home/pi/timelapse_work"
+
+- name: Creates directory
+  become: true
+  file:
+    path: /opt/usr/bin
+    state: directory
+    recurse: yes
+
+- name: Copy timelapse.py
+  become: true
+  copy:
+    src: ./files/timelapse.py
+    dest: /opt/usr/bin/timelapse.py
+    mode: '0755'
+
+- name: Creates work directory
+  file:
+    path: '{{ timelapse_work_dir }}'
+    state: directory
+    recurse: yes
+
+- name: Create a symbolic link for work directory
+  file:
+    src: '{{ timelapse_work_dir }}'
+    dest: /home/pi/timelapse_work
+    state: link
+
+- name: Daemon reload
+  become: true
+  systemd:
+    daemon_reload: yes
+
+- name: Service enable
+  become: true
+  systemd:
+    name: timelapse.service
+    enabled: yes
+
+- name: Service start
+  become: true
+  systemd:
+    name: timelapse.service
+    state: started

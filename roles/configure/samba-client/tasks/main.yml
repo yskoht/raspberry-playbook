@@ -1,0 +1,19 @@
+---
+- name: Install samba-client, cifs-utils
+  become: true
+  apt:
+    name:
+      - samba-client
+      - cifs-utils
+
+- name: Creates mount directory
+  file:
+    path: '{{ samba_mount_path }}'
+    state: directory
+    recurse: yes
+
+- name: Edit /etc/fstab
+  become: true
+  lineinfile:
+    dest: /etc/fstab
+    line: "{{ samba_host }} {{ samba_mount_path }} cifs _netdev,x-systemd.automount,user,uid=1000,gid=1000,username={{ samba_username }},password={{ samba_password }},vers=1.0,dir_mode=0755,file_mode=0777 0 0"

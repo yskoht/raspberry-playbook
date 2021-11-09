@@ -1,0 +1,17 @@
+---
+- name: Generate WPA supplicant config
+  shell: |
+    wpa_passphrase "{{ ssid }}" "{{ wpa_psk }}" | sed -e 's/^.*#psk.*$/\tkey_mgmt=WPA-PSK/'
+  register: wpa_supplicant_config
+
+- name: Edit wpa_supplicant.conf
+  blockinfile:
+    path: /etc/wpa_supplicant/wpa_supplicant.conf
+    block: "{{ wpa_supplicant_config.stdout }}"
+
+- name: WPA reconfigure
+  command:
+    cmd: wpa_cli reconfigure
+
+- name: Reboot
+  reboot:

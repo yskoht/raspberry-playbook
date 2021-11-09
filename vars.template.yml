@@ -1,0 +1,22 @@
+---
+# configure
+hostname:
+password:
+ssid:
+wpa_psk: # wifi passphrase
+ssh_public_key_path: # id_rsa.pub
+
+# samba-client
+samba_host: # //192.168.x.x/share
+samba_mount_path: # /home/pi/samba
+samba_username:
+samba_password:
+
+# samba-host
+samba_shared_path:
+
+# timelapse
+timelapse_work_dir:
+
+# epaper
+epaper_module:

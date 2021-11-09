@@ -1,0 +1,13 @@
+---
+- name: Unlink python2 and link python3
+  command:
+    cmd: ln -f -s /usr/bin/python3 /usr/bin/python
+
+- name: Install pip
+  apt:
+    name:
+      - python3-pip
+
+- name: Link pip3
+  command:
+    cmd: ln -s /usr/bin/pip3 /usr/bin/pip

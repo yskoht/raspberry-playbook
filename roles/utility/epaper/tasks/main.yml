@@ -1,0 +1,25 @@
+---
+- name: Install dependencies
+  become: true
+  apt:
+    name:
+      - libtiff5
+      - libopenjp2-7-dev
+      - libatlas-base-dev
+
+- name: Install raspberry-epaper
+  pip:
+    name:
+      - raspberry-epaper
+
+- name: Set cron
+  cron:
+    name: epaper
+    minute: 25,55
+    hour: 0-2,8-23
+    job: /home/pi/.local/bin/epaper print --verbose -d {{ epaper_module }} --qr "smb://$(hostname -I | awk '{ print $1 }')" {{ samba_shared_path }} >>error.log 2>&1
+    state: present
+
+- name: Add sample text
+  shell: |
+    echo "smb://$(hostname -I | awk '{ print $1 }')" >{{ samba_shared_path }}/ip.txt

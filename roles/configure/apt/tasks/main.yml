@@ -1,0 +1,12 @@
+---
+- name: Update
+  apt:
+    update_cache: yes
+
+- name: Upgrade
+  apt:
+    upgrade: yes
+
+- name: Upgrade dist
+  apt:
+    upgrade: dist

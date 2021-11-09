@@ -1,0 +1,8 @@
+---
+- command:
+    cmd: ifconfig
+  register: interface_config
+
+- name: Show ifconfig
+  debug:
+    var: interface_config.stdout_lines

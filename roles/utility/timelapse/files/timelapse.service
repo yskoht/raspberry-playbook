@@ -1,0 +1,13 @@
+[Unit]
+Description = capture for timelapse
+
+[Service]
+ExecStart = /usr/bin/python3 /opt/usr/bin/timelapse.py
+Restart = always
+Type = simple
+EnvironmentFile=/etc/sysconfig/pi
+User=pi
+Group=pi
+
+[Install]
+WantedBy = multi-user.target

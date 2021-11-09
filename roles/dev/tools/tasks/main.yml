@@ -1,0 +1,11 @@
+---
+- name: Install tools
+  become: true
+  apt:
+    name:
+      - tmux
+      - vim
+      - fzf
+      - git
+      - zsh
+      - ruby

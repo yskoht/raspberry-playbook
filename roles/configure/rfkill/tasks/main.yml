@@ -1,0 +1,19 @@
+---
+- name: Copy rfkill-unblock-wifi.service
+  copy:
+    src: ./files/rfkill-unblock-wifi.service
+    dest: /etc/systemd/system/rfkill-unblock-wifi.service
+
+- name: Daemon reload
+  systemd:
+    daemon_reload: yes
+
+- name: Service enable
+  systemd:
+    name: rfkill-unblock-wifi.service
+    enabled: yes
+
+- name: Service start
+  systemd:
+    name: rfkill-unblock-wifi.service
+    state: started

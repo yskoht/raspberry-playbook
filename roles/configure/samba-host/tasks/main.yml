@@ -1,0 +1,34 @@
+---
+- name: Install samba, samba-common-bin
+  become: true
+  apt:
+    name:
+      - samba
+      - samba-common-bin
+
+- name: Creates shared path
+  become: true
+  file:
+    path: '{{ samba_shared_path }}'
+    state: directory
+    recurse: yes
+    mode: '1777'
+
+- name: Edit /etc/samba/smb.conf
+  become: true
+  blockinfile:
+    path: /etc/samba/smb.conf
+    content: |
+      [shared]
+      comment = Share
+      path = {{ samba_shared_path }}
+      public = yes
+      read only = no
+      browsable = yes
+      force user = pi
+
+- name: Service restart
+  become: true
+  service:
+    name: smbd
+    state: restarted

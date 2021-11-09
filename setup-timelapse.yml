@@ -1,0 +1,31 @@
+- hosts: targets
+  gather_facts: no
+
+  vars_prompt:
+    - name: samba_host
+      prompt: "Samba host"
+      private: no
+
+    - name: samba_mount_path
+      prompt: "Samba mount path"
+      private: no
+
+    - name: samba_username
+      prompt: "Samba username"
+      private: no
+
+    - name: samba_password
+      prompt: "Samba password"
+      private: yes
+
+    - name: timelapse_work_dir
+      prompt: "Timelapse work directory path"
+
+  roles:
+    - configure/enable-camera
+    - configure/samba-client
+    - configure/reboot
+    - dev/picamera
+    - dev/opencv-python
+    - utility/timelapse
+    - configure/reboot

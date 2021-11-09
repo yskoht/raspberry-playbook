@@ -1,0 +1,6 @@
+- hosts: localhost
+  connection: local
+  roles:
+    - create-sd/download-os-image
+    - create-sd/create
+
